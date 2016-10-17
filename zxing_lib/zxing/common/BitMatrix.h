@@ -60,7 +60,14 @@ public:
 
   bool get(int x, int y) const {
     int offset = y * rowSize + (x >> logBits);
+#if (1)
+    if (((x < 0) || (x > width)) || ((y < 0) || (y > height))) {
+        return 0;
+    }
     return ((((unsigned)bits[offset]) >> (x & bitsMask)) & 1) != 0;
+#else
+    return ((((unsigned)bits[offset]) >> (x & bitsMask)) & 1) != 0;
+#endif
   }
 
   void set(int x, int y) {
