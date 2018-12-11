@@ -12,18 +12,9 @@ The application:
 
 ## Required hardware
 
-* [Renesas GR-PEACH](https://developer.mbed.org/platforms/Renesas-GR-PEACH/).
+* [Renesas GR-LYCHEE](https://developer.mbed.org/platforms/Renesas-GR-LYCHEE/).
 * 1-2 micro-USB cables.
-* Ethernet cable and connection to the internet.
-
-## Requirements for Renesas GR-PEACH
-* To get the application registering successfully on non K64F boards , you need Edit the `mbed_app.json` file to add `NULL_ENTROPY`  feature for mbedTLS:
-
-```
-"RZ_A1H": {
-    "target.macros_add": ["MBEDTLS_TEST_NULL_ENTROPY", "MBEDTLS_NO_DEFAULT_ENTROPY_SOURCES"]
-},
-```
+* Ethernet cable is unnecessay(This board connect to internet by using Wifi module is incorporated).
 
 ## Required software
 
@@ -37,19 +28,16 @@ To configure the example application, please:
 
 1. [Select the connection type](#connection-type).
 1. [Set the client credentials](#client-credentials).
-1. [Change Ethernet settings](#ethernet-settings).
 1. [Change Wi-Fi settings](#wi-fi-settings).
-1. [Set up an IP address](#ip-address-setup). This step is optional.
-1. [Change the socket type](#changing-socket-type). This step is optional.
 
 ### Connection type
 
-The application uses "NO_CONNECT" as the default connection type. To change the connection type, set one of them in `mbed_app.json`. For example, to enable Ethernet mode:
+The application uses "NO_CONNECT" as the default connection type. To change the connection type, set one of them in `mbed_app.json`. For example, to enable WIFI_ESP32 mode:
 
 ```json
     "network-interface":{
-        "help": "Options are ETHERNET, WIFI_ESP8266, WIFI_BP3595, NO_CONNECT",
-        "value": "ETHERNET"
+        "help": "Options are ETHERNET, WIFI_IDW0XX1, WIFI_ESP8266, WIFI_BP3595, WIFI_ESP32, WIFI_ISM43362, WIFI_ODIN, WIFI_WIZFI310, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR_ONBOARD, NO_CONNECT",
+        "value": "WIFI_ESP32"
     },
 ```
 
@@ -61,36 +49,15 @@ To register the application to the Connector service, you need to create and set
 1. On mbed Device Connector, go to [My Devices > Security credentials](https://connector.mbed.com/#credentials) and click the **Get my device security credentials** button to get new credentials for your device.
 1. Replace the contents in `security.h` of this project's directory with content copied above.
 
-### Ethernet settings
+### Wi-Fi settings
 
-For running the example application using Ethernet, you need:
+The example application uses WIFI_ESP32 WiFi Interface for managing the wireless connectivity. To run this application using WiFi, you need:
 
-- An Ethernet cable.
-- An Ethernet connection to the internet.
-- MAC address setting. To set MAC address, add fllowing function to main.cpp. (When using Wifi, setting of MAC address is not necessary.) 
-```
-// set mac address
-void mbed_mac_address(char *mac) {
-    mac[0] = 0x00;
-    mac[1] = 0x02;
-    mac[2] = 0xF7;
-    mac[3] = 0xF0;
-    mac[4] = 0x00;
-    mac[5] = 0x00;
-}
-```
-
-### Wi-Fi settings (BP3595)
-
-The example application uses BP3595 WiFi Interface for managing the wireless connectivity. To run this application using WiFi, you need:
-
-1. An [BP3595](https://developer.mbed.org/components/BP3595-for-GR-PEACH/) WiFi module
-1. Mount the WiFi module onto [Renesas GR-PEACH](https://developer.mbed.org/platforms/Renesas-GR-PEACH/)
 1. In the `mbed_app.json` file, change
 ```json
     "network-interface":{
-        "help": "Options are ETHERNET, WIFI_ESP8266, WIFI_BP3595, NO_CONNECT",
-        "value": "WIFI_BP3595"
+        "help": "Options are ETHERNET, WIFI_IDW0XX1, WIFI_ESP8266, WIFI_BP3595, WIFI_ESP32, WIFI_ISM43362, WIFI_ODIN, WIFI_WIZFI310, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR_ONBOARD, NO_CONNECT",
+        "value": "WIFI_ESP32"
     },
 ```
 
@@ -114,38 +81,6 @@ Specify the security protocol in accordance with your wireless network. By defau
     }
 ```
 
-Short the jumper JP1 of [Audio Camera Shield](https://developer.mbed.org/teams/Renesas/wiki/Audio_Camera-shield) to supply the power to BP3595.
-
-<span class="tips">**TODO:** Need to clarify when Audio Camera Shield is NOT available.</span>
-
-### IP address setup
-
-This example uses IPv4 to communicate with the [mbed Device Connector Server](https://api.connector.mbed.com) except for 6LoWPAN ND and Thread. 
-The example program should automatically get an IP address from the router when connected over Ethernet or WiFi.
-If your network does not have DHCP enabled, you have to manually assign a static IP address to the board. We recommend having DHCP enabled to make everything run smoothly.
-
-### Changing socket type
-
-Your device can connect to mbed Device Connector via UDP or TCP binding mode. The default and only allowed value is UDP for Thread and 6LoWPAN. TCP is the default for other connections. The binding mode cannot be changed in 6LoWPAN ND or Thread mode.
-
-To change the binding mode:
-
-1. In the `simpleclient.h` file, find the parameter `SOCKET_MODE`. The default is `M2MInterface::UDP` for mesh and `M2MInterface::TCP` for others.
-1. To switch to UDP, change it to `M2MInterface::UDP`.
-1. Rebuild and flash the application.
-
-<span class="tips">**Tip:** The instructions in this document remain the same, irrespective of the socket mode you select.</span>
-
-Possible socket types per connection:
-
-| Network  interface                    | UDP   | TCP | 
-| ------------------------------|:-----:|:-----:|
-| Ethernet (IPv4)               |   X   |   X   | 
-| Ethernet (IPv6)               |   X   |       | 
-| Wifi (IPv4)                   |   X   |   X   |
-| Wifi (IPv6) - Not supported   |       |       |
-| 6LoWPAN/Thread (IPv6)         |   X   |       |
-
 ## Building the example
 
 To build the example using mbed CLI:
@@ -155,7 +90,7 @@ To build the example using mbed CLI:
 2. Import this example:
 
     ```
-    mbed import http://mbed.org/teams/Renesas/code/GR-PEACH_mbed-os-client-ZXingSample/
+    mbed import https://github.com/TomoYamanaka/mbed-os-example-client/tree/GR-LYCHEE_ZXing
     ```
 
 3. To build the application, select the hardware board and build the toolchain using the command:
@@ -166,11 +101,9 @@ To build the example using mbed CLI:
 
     mbed CLI builds a binary file under the project’s `BUILD/` directory.
 
-4. Plug the Ethernet cable into the board if you are using Ethernet mode.
+4. Plug the micro-USB cable into the **OpenSDA** port. The board is listed as a mass-storage device.
 
-5. Plug the micro-USB cable into the **OpenSDA** port. The board is listed as a mass-storage device.
-
-6. Drag the binary `BUILD/RZ_A1H/GCC_ARM/GR-PEACH_mbed-os-client-ZXingSample.bin` to the board to flash the application.
+5. Drag the binary `BUILD/RZ_A1H/GCC_ARM/XXXXXXXX.bin` to the board to flash the application.
 
 7. The board is automatically programmed with the new binary. A flashing LED on it indicates that it is still working. When the LED stops blinking, the board is ready to work.
 
@@ -186,17 +119,17 @@ The application prints debug messages over the serial port, so you can monitor i
 
 
 ```
-Starting mbed Client example in IPv4 mode
-[EasyConnect] Using Ethernet
+Starting mbed Client example
+[EasyConnect] Using WiFi (ESP32)
+[EasyConnect] Connecting to WiFi XXXXXXXX
 [EasyConnect] Connected to Network successfully
-[EasyConnect] IP address  192.168.8.110
-[EasyConnect] MAC address 5c:cf:7f:86:de:bf
+[EasyConnect] IP address xxx.xxx.xxx.xxx
+[EasyConnect] MAC address xx:xx:xx:xx:xx:xx
 
 SOCKET_MODE : TCP
-
 Connecting to coap://api.connector.mbed.com:5684
 
-Registered object succesfully!
+Registered object successfully!
 ```
 
 <span class="notes">**Note:** Device name is the endpoint name you will need later on when [testing the application](https://github.com/ARMmbed/mbed-os-example-client#testing-the-application) chapter.</span>
@@ -212,7 +145,6 @@ When the barcode data is successfully decoded, you should see the decoded string
 1. Go to [Device Connector > API Console](https://connector.mbed.com/#console).
 1. Enter `https://api.connector.mbed.com/endpoints/DEVICE_NAME/3202/0/5700` in the URI field and click **TEST API**. Replace `DEVICE_NAME` with your actual endpoint name. The device name can be found in the `security.h` file, see variable `MBED_ENDPOINT_NAME` or it can be found from the traces [Monitoring the application](https://github.com/ARMmbed/mbed-os-example-client#monitoring-the-application).
 1. Decoded string is shown.
-1. Press the `SW3` button to unregister from mbed Device Connector. You should see `Unregistered Object Successfully` printed to the serial port and the LED starts blinking. This will also stop your application. Press the `RESET` button to run the program again.
 
 ![Decoded String, as shown by the API Console](zxing.png)
 
