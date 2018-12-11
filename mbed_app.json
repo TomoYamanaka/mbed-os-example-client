@@ -1,8 +1,8 @@
 {
     "config": {
         "network-interface":{
-            "help": "Options are ETHERNET, WIFI_IDW0XX1, WIFI_ESP8266, WIFI_ISM43362, WIFI_ODIN, WIFI_WIZFI310, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR_ONBOARD",
-            "value": "ETHERNET"
+            "help": "Options are ETHERNET, WIFI_IDW0XX1, WIFI_ESP8266, WIFI_BP3595, WIFI_ESP32, WIFI_ISM43362, WIFI_ODIN, WIFI_WIZFI310, MESH_LOWPAN_ND, MESH_THREAD, CELLULAR_ONBOARD, NO_CONNECT",
+            "value": "NO_CONNECT"
         },
         "mesh_radio_type": {
             "help": "options are ATMEL, MCR20, SPIRIT1, EFR32",
@@ -16,6 +16,10 @@
             "help": "WiFi Password",
             "value": "\"Password\""
         },
+        "wifi-security":{
+            "help": "Options are NSAPI_SECURITY_WEP, NSAPI_SECURITY_WPA, NSAPI_SECURITY_WPA2, NSAPI_SECURITY_WPA_WPA2",
+            "value": "NSAPI_SECURITY_WPA_WPA2"
+        },
         "wifi-tx": {
             "help": "TX pin for serial connection to external device",
             "value": "D1"
@@ -23,6 +27,22 @@
         "wifi-rx": {
             "help": "RX pin for serial connection to external device",
             "value": "D0"
+        },
+        "camera":{
+            "help": "0:disable 1:enable",
+            "value": "1"
+        },
+        "camera-type":{
+            "help": "Options are CAMERA_CVBS, CAMERA_MT9V111, CAMERA_OV7725",
+            "value": "CAMERA_OV7725"
+        },
+        "lcd":{
+            "help": "0:disable 1:enable",
+            "value": "0"
+        },
+        "lcd-type":{
+            "help": "Options are GR_PEACH_4_3INCH_SHIELD, GR_PEACH_7_1INCH_SHIELD, GR_PEACH_RSK_TFT, GR_PEACH_DISPLAY_SHIELD, GR_LYCHEE_LCD",
+            "value": "GR_LYCHEE_LCD"
         }
     },
     "macros": ["MBEDTLS_USER_CONFIG_FILE=\"mbedtls_mbed_client_config.h\""],
