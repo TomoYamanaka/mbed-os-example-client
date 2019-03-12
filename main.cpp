@@ -59,31 +59,27 @@ int main() {
 // easy-connect compliancy, it has 2 sets of wifi pins we have only one
 #define MBED_CONF_APP_ESP8266_TX MBED_CONF_APP_WIFI_TX
 #define MBED_CONF_APP_ESP8266_RX MBED_CONF_APP_WIFI_RX
-#ifdef TARGET_GR_LYCHEE
-#include "easy-connect-gr-lychee/easy-connect.h"
-#else
 #include "easy-connect/easy-connect.h"
-#endif
 
 // Should be defined after easy-connect.h
 #include "simpleclient.h"
 
 #ifdef TARGET_STM
-#define RED_LED (LED3)
-#define GREEN_LED (LED1)
-#define BLUE_LED (LED2)
-#define LED_ON (1)
+#define RED_LED     (LED3)
+#define GREEN_LED   (LED1)
+#define BLUE_LED    (LED2)
+#define LED_ON      (1)
 #elif TARGET_GR_LYCHEE
-#define GREEN_LED (LED1)
-#define YELLOW_LED (LED2)
-#define ORANGE_LED (LED3)
-#define RED_LED (LED4)
-#define LED_ON (1)
+#define GREEN_LED   (LED1)
+#define YELLOW_LED  (LED2)
+#define ORANGE_LED  (LED3)
+#define RED_LED     (LED4)
+#define LED_ON      (1)
 #else
-#define RED_LED (LED1)
-#define GREEN_LED (LED2)
-#define BLUE_LED (LED3)
-#define LED_ON (0)
+#define RED_LED     (LED1)
+#define GREEN_LED   (LED2)
+#define BLUE_LED    (LED3)
+#define LED_ON      (0)
 #endif
 #define LED_OFF (!LED_ON)
 
